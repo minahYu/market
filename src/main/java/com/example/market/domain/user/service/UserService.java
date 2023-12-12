@@ -35,7 +35,7 @@ public class UserService {
      * password와 passwordCheck가 같은 값인지 확인하는 메서드
      */
     private boolean checkSamePassword(String password, String passwordCheck) {
-        if (password.matches(passwordCheck)) {
+        if (password.equals(passwordCheck)) {
             return true;
         } else {
             throw new IllegalArgumentException("입력하신 비밀번호와 일치하지 않습니다");
