@@ -11,10 +11,10 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
+    @Column(name = "username", unique = true)
     private String username;
 
-    @Column
+    @Column(name = "password")
     private String password;
 
     public User(String username, String password) {
