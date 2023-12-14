@@ -1,8 +1,7 @@
 package com.example.market.domain.user.jwt;
 
 import com.example.market.domain.user.entity.UserRoleEnum;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
@@ -86,5 +85,31 @@ public class JwtUtil {
             return bearerToken.substring(7);
         }
         return null;
+    }
+
+    /**
+     * 토큰 검증하는 메서드
+     * 검증 완료시 true, 실패시 false를 리턴.
+     */
+    public boolean validateToken(String token) {
+        try {
+            // parserBuilder() : JwtParser(변경 불가능하고 스레드로 부터 안전)를 생성하도록 구성하는
+            //                   새 JwtParserBuilder 인스턴스를 반환.
+            // setSigningKey() : JWT 생성시 사용한 비밀키를 이용해 JWT를 검증하는 메서드로,
+            //                   문자열이 Jws가 아닌 경우 사용되지 않고, JWT 헤더에 있는 토큰이 유효해야 함.
+            // parseClaimsJwt() : JWS 문자열 구문을 분석해 Claims JWS 인스턴스를 반환.
+            //                    분석하고 검증하여 그 결과에 따라 아래에 있는 예외처리들을 던져줌.
+            Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
+            return true;
+        } catch(SecurityException | MalformedJwtException | SignatureException e) {
+            log.error("Invalid JWT signature, 유효하지 않는 JWT 서명입니다.");
+        } catch(ExpiredJwtException e) {
+            log.error("Expired JWT token, 만료된 JWT 토큰입니다.");
+        } catch(UnsupportedJwtException e) {
+            log.error("Unsupported JWT token, 지원되지 않는 JWT 토큰입니다.");
+        } catch(IllegalArgumentException e) {
+            log.error("JWT claims is empty, 잘못된 JWT 토큰입니다.");
+        }
+        return false;
     }
 }
