@@ -5,9 +5,11 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import java.security.Key;
 import java.util.Base64;
@@ -71,5 +73,18 @@ public class JwtUtil {
                         .setIssuedAt(date) // 토큰 발급일
                         .signWith(key, signatureAlgorithm) // 암호화 알고리즘
                         .compact(); // 위에서 구성한 내용들을 문자열 형태로 압축해 반환
+    }
+
+    /**
+     * HTTP 요청 헤더에 들어있는 JWT 토큰을 추출하는 메서드
+     */
+    public String getJwtFromHeader(HttpServletRequest request) {
+        String bearerToken = request.getHeader(AUTHORIZATION_HEADER); // 헤더에서 title이 AUTHORIZATION_HEADER인 것 가져오기
+        // bearerToken이 null이 아니고, BEARER_PREFIX로 시작하면
+        if(StringUtils.hasText(bearerToken) && bearerToken.startsWith(BEARER_PREFIX)) {
+            // bearerToken에서 'Bearer '부분 제어할 수 있도록 7번째 인덱스전까지 잘라줌.
+            return bearerToken.substring(7);
+        }
+        return null;
     }
 }
