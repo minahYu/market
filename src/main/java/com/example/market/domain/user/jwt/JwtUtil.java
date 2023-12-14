@@ -1,5 +1,7 @@
 package com.example.market.domain.user.jwt;
 
+import com.example.market.domain.user.entity.UserRoleEnum;
+import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import java.security.Key;
 import java.util.Base64;
+import java.util.Date;
 
 @Component
 @Slf4j
@@ -50,5 +53,23 @@ public class JwtUtil {
         byte[] bytes = Base64.getDecoder().decode(secretKey); // Base64로 encode된 secret key를 다시 decode
         // Keys : 키를 안전하게 생성하기 위한 유틸리티 클래스
         key = Keys.hmacShaKeyFor(bytes); // HMAC SHA 암호화 방법을 이용해 bytes(decode된 secret key)를 암호화하고 생성
+    }
+
+    /**
+     * 토큰을 생성하는 메서드
+     */
+    public String createToken(String username, UserRoleEnum role) {
+        Date date = new Date(); // 토큰을 생성한 date객체 생성
+        
+        return BEARER_PREFIX +
+                // Jwts : JWT 인터페이스 인스턴스를 생성하는데 유용한 팩토리 클래스
+                //        (팩토리 클래스 - 필요한 객체를 만들어 제공하는 역할을 함.)
+                Jwts.builder() // builder() : JwtBuilder 인스턴스를 반환.
+                        .setSubject(username) // 사용자 식별자 값(ID)
+                        .claim(AUTHORIZATION_KEY, role) // 사용자 권한
+                        .setExpiration(new Date(date.getTime() - TOKEN_TIME)) // 만료시간
+                        .setIssuedAt(date) // 토큰 발급일
+                        .signWith(key, signatureAlgorithm) // 암호화 알고리즘
+                        .compact(); // 위에서 구성한 내용들을 문자열 형태로 압축해 반환
     }
 }
