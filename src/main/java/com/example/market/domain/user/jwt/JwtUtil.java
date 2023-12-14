@@ -112,4 +112,12 @@ public class JwtUtil {
         }
         return false;
     }
+
+    /**
+     * 토큰에서 사용자 정보를 가져오는 메서드
+     */
+    public Claims getUserInfoFromToken(String token) {
+        // getBody() : JwtBody 부분을 String or Claims 리턴해주는 메서드
+        return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
+    }
 }
