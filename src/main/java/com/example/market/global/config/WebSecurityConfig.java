@@ -1,4 +1,4 @@
-package com.example.market.domain.user.config;
+package com.example.market.global.config;
 
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;

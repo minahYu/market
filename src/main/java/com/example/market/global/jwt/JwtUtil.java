@@ -1,4 +1,4 @@
-package com.example.market.domain.user.jwt;
+package com.example.market.global.jwt;
 
 import com.example.market.domain.user.entity.UserRoleEnum;
 import io.jsonwebtoken.*;
