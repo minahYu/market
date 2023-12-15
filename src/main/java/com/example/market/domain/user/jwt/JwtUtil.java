@@ -4,12 +4,14 @@ import com.example.market.domain.user.entity.UserRoleEnum;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
-import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.security.Key;
 import java.util.Base64;
 import java.util.Date;
@@ -25,10 +27,10 @@ import java.util.Date;
 public class JwtUtil {
     public static final String AUTHORIZATION_HEADER = "Authorization"; // Header KEY 값
     public static final String AUTHORIZATION_KEY = "auth"; // 사용자 권한 값의 KEY
-    
+
     // TOKEN 식별자
     // Bearer : JWT or OAuth에 대한 토큰을 사용하는 표시
-    public static final String BEARER_PREFIX = "Bearer "; 
+    public static final String BEARER_PREFIX = "Bearer ";
     private final long TOKEN_TIME = 60 * 60 * 1000L; //토큰 만료시간 60분
 
     // @Value : 설정파일에 설정한 내용을 주입시켜주는 annotation
@@ -61,7 +63,7 @@ public class JwtUtil {
      */
     public String createToken(String username, UserRoleEnum role) {
         Date date = new Date(); // 토큰을 생성한 date객체 생성
-        
+
         return BEARER_PREFIX +
                 // Jwts : JWT 인터페이스 인스턴스를 생성하는데 유용한 팩토리 클래스
                 //        (팩토리 클래스 - 필요한 객체를 만들어 제공하는 역할을 함.)
@@ -75,16 +77,20 @@ public class JwtUtil {
     }
 
     /**
-     * HTTP 요청 헤더에 들어있는 JWT 토큰을 추출하는 메서드
+     * JWT 토큰을 쿠키에 저장하는 메서드
      */
-    public String getJwtFromHeader(HttpServletRequest request) {
-        String bearerToken = request.getHeader(AUTHORIZATION_HEADER); // 헤더에서 title이 AUTHORIZATION_HEADER인 것 가져오기
-        // bearerToken이 null이 아니고, BEARER_PREFIX로 시작하면
-        if(StringUtils.hasText(bearerToken) && bearerToken.startsWith(BEARER_PREFIX)) {
-            // bearerToken에서 'Bearer '부분 제어할 수 있도록 7번째 인덱스전까지 잘라줌.
-            return bearerToken.substring(7);
+    public void addJwtToCookie(String token, HttpServletResponse response) {
+        try {
+            // token을 utf-8형식으로 URL 인코딩하여 +를 %20으로 대체해줌.
+            token = URLEncoder.encode(token, "utf-8").replaceAll("\\+", "%20");
+
+            Cookie cookie = new Cookie(AUTHORIZATION_HEADER, token); // 쿠키 생성
+            cookie.setPath("/"); // 쿠키를 반환할 경로 설정
+
+            response.addCookie(cookie); // 응답 데이터에 쿠키 추가
+        } catch (UnsupportedEncodingException e) {
+            log.error(e.getMessage());
         }
-        return null;
     }
 
     /**
@@ -101,13 +107,13 @@ public class JwtUtil {
             //                    분석하고 검증하여 그 결과에 따라 아래에 있는 예외처리들을 던져줌.
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
             return true;
-        } catch(SecurityException | MalformedJwtException | SignatureException e) {
+        } catch (SecurityException | MalformedJwtException | SignatureException e) {
             log.error("Invalid JWT signature, 유효하지 않는 JWT 서명입니다.");
-        } catch(ExpiredJwtException e) {
+        } catch (ExpiredJwtException e) {
             log.error("Expired JWT token, 만료된 JWT 토큰입니다.");
-        } catch(UnsupportedJwtException e) {
+        } catch (UnsupportedJwtException e) {
             log.error("Unsupported JWT token, 지원되지 않는 JWT 토큰입니다.");
-        } catch(IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
             log.error("JWT claims is empty, 잘못된 JWT 토큰입니다.");
         }
         return false;
