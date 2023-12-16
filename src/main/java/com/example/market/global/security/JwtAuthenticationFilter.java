@@ -65,11 +65,25 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             FilterChain chain,
             Authentication authResult
     ) throws IOException, ServletException {
+        log.info("로그인 성공");
         // 인증 결과를 가져옴
         String nickname = ((UserDetailsImpl) authResult.getPrincipal()).getUsername();
         UserRoleEnum role = ((UserDetailsImpl) authResult.getPrincipal()).getUser().getRole();
 
         String token = jwtUtil.createToken(nickname, role); // 닉네임과 역할을 이용해 토큰 생성
         jwtUtil.addJwtToCookie(token, response); // 생성한 토큰을 응답 쿠키에 넣어줌.
+    }
+
+    /**
+     * 인증 실패시 호출되는 메서드
+     */
+    @Override
+    protected void unsuccessfulAuthentication(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            AuthenticationException failed
+    ) throws IOException, ServletException {
+        log.info("로그인 실패");
+        response.setStatus(401);
     }
 }
