@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -93,6 +94,17 @@ public class JwtUtil {
         }
     }
 
+    /**
+     * JWT 토큰에서 토큰 식별자를 자르는 메서드
+     */
+    public String substringToken(String tokenValue) {
+        if(StringUtils.hasText(tokenValue) && tokenValue.startsWith(BEARER_PREFIX)) {
+            return tokenValue.substring(7);
+        }
+        log.error("Not Found Token");
+        throw new NullPointerException("Not Found Token");
+    }
+    
     /**
      * 토큰 검증하는 메서드
      * 검증 완료시 true, 실패시 false를 리턴.
