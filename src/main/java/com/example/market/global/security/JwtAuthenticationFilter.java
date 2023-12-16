@@ -1,8 +1,11 @@
 package com.example.market.global.security;
 
 import com.example.market.domain.user.dto.request.LoginRequestDto;
+import com.example.market.domain.user.entity.UserRoleEnum;
 import com.example.market.global.jwt.JwtUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -50,5 +53,23 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             log.error(e.getMessage());
             throw new RuntimeException(e);
         }
+    }
+
+    /**
+     * 인증 성공시 호출되는 메서드
+     */
+    @Override
+    protected void successfulAuthentication(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            FilterChain chain,
+            Authentication authResult
+    ) throws IOException, ServletException {
+        // 인증 결과를 가져옴
+        String nickname = ((UserDetailsImpl) authResult.getPrincipal()).getUsername();
+        UserRoleEnum role = ((UserDetailsImpl) authResult.getPrincipal()).getUser().getRole();
+
+        String token = jwtUtil.createToken(nickname, role); // 닉네임과 역할을 이용해 토큰 생성
+        jwtUtil.addJwtToCookie(token, response); // 생성한 토큰을 응답 쿠키에 넣어줌.
     }
 }
