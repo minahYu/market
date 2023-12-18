@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -31,8 +32,17 @@ public class PostService {
         return postList;
     }
 
-    public void createPost(PostRequestDto requestDto, User user) {
-        Post post = new Post(requestDto);
+    public PostResponseDto createPost(PostRequestDto requestDto, User user) {
+        Optional<User> userCheck = userRepository.findByNickname(user.getNickname());
 
+        if(userCheck.isPresent()) {
+            Post post = new Post(requestDto, user.getNickname());
+            postRepository.save(post);
+
+            return new PostResponseDto(post);
+        }
+        else {
+            throw new IllegalArgumentException("존재하지 않는 사용자입니다.");
+        }
     }
 }

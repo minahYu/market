@@ -5,6 +5,7 @@ import com.example.market.domain.post.dto.response.PostResponseDto;
 import com.example.market.domain.post.service.PostService;
 import com.example.market.global.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,10 +23,13 @@ public class PostController {
     }
 
     @PostMapping("")
-    public void createPost(
+    public ResponseEntity<?> createPost(
             @RequestBody PostRequestDto requestDto,
             @AuthenticationPrincipal UserDetailsImpl userDetails
     ) {
-        postService.createPost(requestDto, userDetails.getUser());
+        if(postService.createPost(requestDto, userDetails.getUser()) != null) {
+            return ResponseEntity.status(200).body("게시글을 등록하였습니다.");
+        }
+        return ResponseEntity.status(401).body("게시글 등록을 실패하였습니다.");
     }
 }

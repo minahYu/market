@@ -99,7 +99,7 @@ public class WebSecurityConfig {
 
         http.formLogin((formLogin) ->
                 formLogin
-                        .loginPage("/api/user/login-page").permitAll()
+                        .loginPage("/api/users/login-page").permitAll()
         );
 
         // 필터 관리. 첫번째 인자 실행 전에 두번째 인자가 실행됨.
