@@ -2,7 +2,6 @@ package com.example.market.domain.post.entity;
 
 import com.example.market.domain.model.BaseEntity;
 import com.example.market.domain.post.dto.request.PostRequestDto;
-import com.example.market.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

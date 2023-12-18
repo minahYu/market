@@ -1,6 +1,7 @@
 package com.example.market.domain.post.controller;
 
 import com.example.market.domain.post.dto.request.PostRequestDto;
+import com.example.market.domain.post.dto.response.DetailPostResponseDto;
 import com.example.market.domain.post.dto.response.PreviewPostResponseDto;
 import com.example.market.domain.post.service.PostService;
 import com.example.market.global.security.UserDetailsImpl;
@@ -17,11 +18,6 @@ import java.util.List;
 public class PostController {
     private final PostService postService;
 
-    @GetMapping("")
-    public List<PreviewPostResponseDto> getPosts() {
-        return postService.getPosts();
-    }
-
     @PostMapping("")
     public ResponseEntity<?> createPost(
             @RequestBody PostRequestDto requestDto,
@@ -31,5 +27,15 @@ public class PostController {
             return ResponseEntity.status(200).body("게시글을 등록하였습니다.");
         }
         return ResponseEntity.status(401).body("게시글 등록을 실패하였습니다.");
+    }
+
+    @GetMapping("")
+    public List<PreviewPostResponseDto> getPosts() {
+        return postService.getPosts();
+    }
+
+    @GetMapping("/{id}")
+    public DetailPostResponseDto getPost(@PathVariable Long id) {
+        return postService.getPost(id);
     }
 }

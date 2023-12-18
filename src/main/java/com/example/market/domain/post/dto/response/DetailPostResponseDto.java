@@ -14,7 +14,7 @@ public class DetailPostResponseDto {
 
     public DetailPostResponseDto(Post post) {
         this.title = post.getTitle();
-        //this.contents = post.getContents();
+        this.contents = post.getContents();
         this.writer = post.getWriter();
         this.createdAt = post.getCreatedAt();
     }
