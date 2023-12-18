@@ -1,7 +1,8 @@
 package com.example.market.domain.post.controller;
 
 import com.example.market.domain.post.dto.request.PostRequestDto;
-import com.example.market.domain.post.dto.response.PostResponseDto;
+import com.example.market.domain.post.dto.response.DetailPostResponseDto;
+import com.example.market.domain.post.dto.response.PreviewPostResponseDto;
 import com.example.market.domain.post.service.PostService;
 import com.example.market.domain.user.entity.User;
 import com.example.market.global.security.UserDetailsImpl;
@@ -30,21 +31,23 @@ public class PostController {
     }
 
     @GetMapping("")
-    public List<PostResponseDto> getPosts() {
+    public List<PreviewPostResponseDto> getPosts() {
         return postService.getPosts();
     }
 
     @GetMapping("/{id}")
-    public PostResponseDto getPost(@PathVariable Long id) {
+    public DetailPostResponseDto getPost(@PathVariable Long id) {
         return postService.getPost(id);
     }
 
     @PostMapping("/{id}")
-    public void updatePost(
+    public ResponseEntity<?> updatePost(
             @RequestBody PostRequestDto requestDto,
             @PathVariable Long id,
             @AuthenticationPrincipal UserDetailsImpl userDetails
     ) {
-        postService.updatePost(requestDto, id, userDetails.getUser());
+        if(!postService.updatePost(requestDto, id, userDetails.getUser()))
+            return ResponseEntity.status(302).body("해당하는 게시글이 존재하지 않습니다.");
+        return ResponseEntity.status(200).body("수정이 완료되었습니다.");
     }
 }
