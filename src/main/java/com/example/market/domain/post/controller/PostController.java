@@ -34,7 +34,15 @@ public class PostController {
     }
 
     @GetMapping("/{id}")
-    public PostResponseDto getPost( @PathVariable Long id) {
+    public PostResponseDto getPost(@PathVariable Long id) {
         return postService.getPost(id);
+    }
+
+    @PostMapping("/{id}")
+    public void updatePost(
+            @PathVariable Long id,
+            UserDetailsImpl UserDetails
+    ) {
+
     }
 }
