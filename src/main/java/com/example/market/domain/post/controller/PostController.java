@@ -41,7 +41,7 @@ public class PostController {
     @PostMapping("/{id}")
     public void updatePost(
             @PathVariable Long id,
-            UserDetailsImpl UserDetails
+            @AuthenticationPrincipal UserDetailsImpl UserDetails
     ) {
 
     }
