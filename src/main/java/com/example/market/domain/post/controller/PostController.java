@@ -1,7 +1,7 @@
 package com.example.market.domain.post.controller;
 
 import com.example.market.domain.post.dto.request.PostRequestDto;
-import com.example.market.domain.post.dto.response.PostResponseDto;
+import com.example.market.domain.post.dto.response.PreviewPostResponseDto;
 import com.example.market.domain.post.service.PostService;
 import com.example.market.global.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +18,7 @@ public class PostController {
     private final PostService postService;
 
     @GetMapping("")
-    public List<PostResponseDto> getPosts() {
+    public List<PreviewPostResponseDto> getPosts() {
         return postService.getPosts();
     }
 
