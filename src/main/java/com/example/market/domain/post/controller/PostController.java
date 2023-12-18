@@ -1,12 +1,13 @@
 package com.example.market.domain.post.controller;
 
+import com.example.market.domain.post.dto.request.PostRequestDto;
 import com.example.market.domain.post.dto.response.PostResponseDto;
 import com.example.market.domain.post.service.PostService;
+import com.example.market.global.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,5 +20,13 @@ public class PostController {
     @GetMapping("")
     public List<PostResponseDto> getPosts() {
         return postService.getPosts();
+    }
+
+    @PostMapping("")
+    public void createPost(
+            @RequestBody PostRequestDto requestDto,
+            @AuthenticationPrincipal UserDetailsImpl userDetails
+    ) {
+
     }
 }
