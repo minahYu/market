@@ -6,13 +6,13 @@ import lombok.Getter;
 import java.time.LocalDateTime;
 
 @Getter
-public class DetailPostReponseDto {
+public class DetailPostResponseDto {
     private String title;
     private String contents;
     private String writer;
     private LocalDateTime createdAt;
 
-    public DetailPostReponseDto(Post post) {
+    public DetailPostResponseDto(Post post) {
         this.title = post.getTitle();
         //this.contents = post.getContents();
         this.writer = post.getWriter();
