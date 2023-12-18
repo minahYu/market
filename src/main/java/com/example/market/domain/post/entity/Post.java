@@ -29,4 +29,8 @@ public class Post extends BaseEntity {
         this.contents = requestDto.getContents();
         this.writer = writer;
     }
+
+    public void update(String title, String contents) {
+
+    }
 }

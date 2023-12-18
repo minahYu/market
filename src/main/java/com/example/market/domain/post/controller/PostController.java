@@ -3,6 +3,7 @@ package com.example.market.domain.post.controller;
 import com.example.market.domain.post.dto.request.PostRequestDto;
 import com.example.market.domain.post.dto.response.PostResponseDto;
 import com.example.market.domain.post.service.PostService;
+import com.example.market.domain.user.entity.User;
 import com.example.market.global.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -40,9 +41,10 @@ public class PostController {
 
     @PostMapping("/{id}")
     public void updatePost(
+            @RequestBody PostRequestDto requestDto,
             @PathVariable Long id,
-            @AuthenticationPrincipal UserDetailsImpl UserDetails
+            @AuthenticationPrincipal UserDetailsImpl userDetails
     ) {
-
+        postService.updatePost(requestDto, id, userDetails.getUser());
     }
 }
