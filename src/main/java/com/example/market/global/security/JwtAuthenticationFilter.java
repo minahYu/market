@@ -25,7 +25,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
     public JwtAuthenticationFilter(JwtUtil jwtUtil) {
         this.jwtUtil = jwtUtil;
-        setFilterProcessesUrl("/api/user/login"); // 인자로 받은 URL이 인증이 필요한지 결정하는 메서드
+        setFilterProcessesUrl("/api/users/login"); // 인자로 받은 URL이 인증이 필요한지 결정하는 메서드
     }
 
     /**
@@ -36,6 +36,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             HttpServletRequest request,
             HttpServletResponse response
     ) throws AuthenticationException {
+        log.info("로그인 시도");
         try {
             // ObjectMapper() : JsonFactory를 생성하는 기본 생성자.
             // readValue() : 입력받은 JSON형식의 request를 Java 객체로 역직렬화해주는 메서드
@@ -50,7 +51,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                     )
             );
         } catch (IOException e) {
-            log.error(e.getMessage());
+            log.error("로그인 실패 : " + e.getMessage());
             throw new RuntimeException(e);
         }
     }

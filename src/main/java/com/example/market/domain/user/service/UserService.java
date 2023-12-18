@@ -2,8 +2,10 @@ package com.example.market.domain.user.service;
 
 import com.example.market.domain.user.dto.request.SignupRequestDto;
 import com.example.market.domain.user.entity.User;
+import com.example.market.domain.user.entity.UserRoleEnum;
 import com.example.market.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -12,6 +14,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public boolean signup(SignupRequestDto requestDto) {
         String nickname = requestDto.getNickname();
@@ -24,7 +27,8 @@ public class UserService {
             return false;
         } else {
             if (checkSamePassword(password, passwordCheck) && checkPasswordNotContainsNickname(password, nickname)) {
-                User newUser = new User(nickname, password);
+                password = passwordEncoder.encode(password);
+                User newUser = new User(nickname, password, UserRoleEnum.USER);
                 userRepository.save(newUser);
             }
             return true;

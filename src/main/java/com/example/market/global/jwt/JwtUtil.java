@@ -100,13 +100,13 @@ public class JwtUtil {
      * JWT 토큰에서 토큰 식별자를 자르는 메서드
      */
     public String substringToken(String tokenValue) {
-        if(StringUtils.hasText(tokenValue) && tokenValue.startsWith(BEARER_PREFIX)) {
+        if (StringUtils.hasText(tokenValue) && tokenValue.startsWith(BEARER_PREFIX)) {
             return tokenValue.substring(7);
         }
         log.error("Not Found Token");
         throw new NullPointerException("Not Found Token");
     }
-    
+
     /**
      * 토큰 검증하는 메서드
      * 검증 완료시 true, 실패시 false를 리턴.
@@ -147,12 +147,12 @@ public class JwtUtil {
     public String getTokenFromRequest(HttpServletRequest request) {
         Cookie[] cookies = request.getCookies(); // 요청에서 쿠키값 가져오기
 
-        if(cookies != null) { // 쿠키 값이 있으면
-            for(Cookie cookie : cookies) {
-                if(cookie.getName().equals(AUTHORIZATION_HEADER)) { // 쿠키 이름이 AUTHORIZATION_HEADER와 일치하는지 확인
+        if (cookies != null) { // 쿠키 값이 있으면
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals(AUTHORIZATION_HEADER)) { // 쿠키 이름이 AUTHORIZATION_HEADER와 일치하는지 확인
                     try {
                         return URLDecoder.decode(cookie.getValue(), "UTF-8"); // 일치하면 쿠키 값을 UTF-8로 디코딩
-                    } catch(UnsupportedEncodingException e) {
+                    } catch (UnsupportedEncodingException e) {
                         return e.getMessage();
                     }
                 }

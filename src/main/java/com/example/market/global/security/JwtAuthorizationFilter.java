@@ -38,10 +38,10 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     ) throws ServletException, IOException {
         String tokenValue = jwtUtil.getTokenFromRequest(request);
 
-        if(StringUtils.hasText(tokenValue)) {
+        if (StringUtils.hasText(tokenValue)) {
             tokenValue = jwtUtil.substringToken(tokenValue);
 
-            if(!jwtUtil.validateToken(tokenValue)) {
+            if (!jwtUtil.validateToken(tokenValue)) {
                 log.error("Token Error");
                 return;
             }
@@ -50,7 +50,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
             try {
                 setAuthentication(info.getSubject());
-            } catch(Exception e) {
+            } catch (Exception e) {
                 log.error(e.getMessage());
                 return;
             }
