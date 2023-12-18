@@ -1,6 +1,7 @@
 package com.example.market.domain.post.entity;
 
 import com.example.market.domain.model.BaseEntity;
+import com.example.market.domain.post.dto.request.PostRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 
@@ -16,4 +17,5 @@ public class Post extends BaseEntity {
     private String title;
     @Column(nullable = false)
     private String writer;
+
 }
