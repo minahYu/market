@@ -17,11 +17,6 @@ import java.util.List;
 public class PostController {
     private final PostService postService;
 
-    @GetMapping("")
-    public List<PostResponseDto> getPosts() {
-        return postService.getPosts();
-    }
-
     @PostMapping("")
     public ResponseEntity<?> createPost(
             @RequestBody PostRequestDto requestDto,
@@ -31,5 +26,15 @@ public class PostController {
             return ResponseEntity.status(200).body("게시글을 등록하였습니다.");
         }
         return ResponseEntity.status(401).body("게시글 등록을 실패하였습니다.");
+    }
+
+    @GetMapping("")
+    public List<PostResponseDto> getPosts() {
+        return postService.getPosts();
+    }
+
+    @GetMapping("/{id}")
+    public void getPost(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+
     }
 }
