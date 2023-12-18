@@ -1,9 +1,9 @@
 package com.example.market.domain.post.controller;
 
 import com.example.market.domain.post.dto.request.PostRequestDto;
-import com.example.market.domain.post.dto.response.PostResponseDto;
+import com.example.market.domain.post.dto.response.DetailPostResponseDto;
+import com.example.market.domain.post.dto.response.PreviewPostResponseDto;
 import com.example.market.domain.post.service.PostService;
-import com.example.market.domain.user.entity.User;
 import com.example.market.global.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -30,12 +30,12 @@ public class PostController {
     }
 
     @GetMapping("")
-    public List<PostResponseDto> getPosts() {
+    public List<PreviewPostResponseDto> getPosts() {
         return postService.getPosts();
     }
 
     @GetMapping("/{id}")
-    public PostResponseDto getPost(@PathVariable Long id) {
+    public DetailPostResponseDto getPost(@PathVariable Long id) {
         return postService.getPost(id);
     }
 
