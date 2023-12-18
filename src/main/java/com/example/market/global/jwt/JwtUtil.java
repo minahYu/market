@@ -73,7 +73,7 @@ public class JwtUtil {
                 Jwts.builder() // builder() : JwtBuilder 인스턴스를 반환.
                         .setSubject(username) // 사용자 식별자 값(ID)
                         .claim(AUTHORIZATION_KEY, role) // 사용자 권한
-                        .setExpiration(new Date(date.getTime() - TOKEN_TIME)) // 만료시간
+                        .setExpiration(new Date(date.getTime() + TOKEN_TIME)) // 만료시간
                         .setIssuedAt(date) // 토큰 발급일
                         .signWith(key, signatureAlgorithm) // 암호화 알고리즘
                         .compact(); // 위에서 구성한 내용들을 문자열 형태로 압축해 반환

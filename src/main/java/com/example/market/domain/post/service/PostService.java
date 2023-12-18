@@ -67,7 +67,7 @@ public class PostService {
      * 게시글 수정 관련 메서드
      */
     @Transactional
-    public boolean updatePost(PostRequestDto requestDto, Long id, User user) {
+    public void updatePost(PostRequestDto requestDto, Long id, User user) {
         Optional<Post> postCheck = postRepository.findById(id);
         Post post = postCheck.get();
 
@@ -77,8 +77,6 @@ public class PostService {
         } else {
             throw new IllegalArgumentException("해당하는 게시글이 존재하지 않습니다.");
         }
-
-        return true;
     }
 
     /**

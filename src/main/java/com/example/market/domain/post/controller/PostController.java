@@ -4,7 +4,6 @@ import com.example.market.domain.post.dto.request.PostRequestDto;
 import com.example.market.domain.post.dto.response.DetailPostResponseDto;
 import com.example.market.domain.post.dto.response.PreviewPostResponseDto;
 import com.example.market.domain.post.service.PostService;
-import com.example.market.domain.user.entity.User;
 import com.example.market.global.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -41,13 +40,11 @@ public class PostController {
     }
 
     @PostMapping("/{id}")
-    public ResponseEntity<?> updatePost(
+    public void updatePost(
             @RequestBody PostRequestDto requestDto,
             @PathVariable Long id,
             @AuthenticationPrincipal UserDetailsImpl userDetails
     ) {
-        if(!postService.updatePost(requestDto, id, userDetails.getUser()))
-            return ResponseEntity.status(302).body("해당하는 게시글이 존재하지 않습니다.");
-        return ResponseEntity.status(200).body("수정이 완료되었습니다.");
+        postService.updatePost(requestDto, id, userDetails.getUser());
     }
 }

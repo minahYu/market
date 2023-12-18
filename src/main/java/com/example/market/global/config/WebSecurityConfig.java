@@ -5,6 +5,7 @@ import com.example.market.global.security.JwtAuthenticationFilter;
 import com.example.market.global.security.JwtAuthorizationFilter;
 import com.example.market.global.security.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,9 +23,10 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 /**
  * Spring Security 설정을 담당하는 클래스
  */
-@EnableWebSecurity // : Spring Security를 기본 설정을 활성화하기 위한 annotation.
 @Configuration
+@EnableWebSecurity // : Spring Security를 기본 설정을 활성화하기 위한 annotation.
 @RequiredArgsConstructor
+@Slf4j
 public class WebSecurityConfig {
     private final JwtUtil jwtUtil;
     private final UserDetailsServiceImpl userDetailsService;
@@ -66,7 +68,7 @@ public class WebSecurityConfig {
      * 인가 필터 등록
      */
     @Bean
-    public JwtAuthorizationFilter jwtAuthorizationFilter() throws Exception {
+    public JwtAuthorizationFilter jwtAuthorizationFilter() {
         return new JwtAuthorizationFilter(jwtUtil, userDetailsService);
     }
 
@@ -88,6 +90,8 @@ public class WebSecurityConfig {
                 // STATELESS -> 스프링 시큐리티가 세션을 생성하지 않고 기존의 세션을 사용하지 않게끔 설정.
                 sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         );
+        
+        log.info("인가 요청 ********* ");
 
         // 인가 요청
         http.authorizeHttpRequests((authorizationRequest) ->
