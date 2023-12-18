@@ -3,15 +3,19 @@ package com.example.market.domain.post.dto.response;
 import com.example.market.domain.post.entity.Post;
 import lombok.Getter;
 
-@Getter
-public class PostResponseDto {
-    private Long id;
-    private String title;
-    private String writer;
+import java.time.LocalDateTime;
 
-    public PostResponseDto(Post post) {
-        this.id = post.getId();
+@Getter
+public class DetailPostReponseDto {
+    private String title;
+    private String contents;
+    private String writer;
+    private LocalDateTime createdAt;
+
+    public DetailPostReponseDto(Post post) {
         this.title = post.getTitle();
+        //this.contents = post.getContents();
         this.writer = post.getWriter();
+        this.createdAt = post.getCreatedAt();
     }
 }
