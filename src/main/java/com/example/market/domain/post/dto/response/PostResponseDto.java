@@ -3,6 +3,8 @@ package com.example.market.domain.post.dto.response;
 import com.example.market.domain.post.entity.Post;
 import lombok.Getter;
 
+import java.time.LocalDateTime;
+
 @Getter
 public class PostResponseDto {
     private Long id;

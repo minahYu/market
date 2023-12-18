@@ -37,25 +37,37 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             FilterChain filterChain
     ) throws ServletException, IOException {
         String tokenValue = jwtUtil.getTokenFromRequest(request);
+        String url = request.getRequestURI();
 
-        if (StringUtils.hasText(tokenValue)) {
-            tokenValue = jwtUtil.substringToken(tokenValue);
+        log.info("@@URL : " + url);
 
-            if (!jwtUtil.validateToken(tokenValue)) {
-                log.error("Token Error");
-                return;
+        if((url.startsWith("/api/users") || url.startsWith("/css") || url.startsWith("/js"))) {
+            filterChain.doFilter(request, response);
+        } else {
+            if (StringUtils.hasText(tokenValue)) {
+                log.info("Token : " + tokenValue);
+                tokenValue = jwtUtil.substringToken(tokenValue);
+                log.info(tokenValue);
+
+                if (!jwtUtil.validateToken(tokenValue)) {
+                    log.error("Token Error");
+                    return;
+                }
+
+                Claims info = jwtUtil.getUserInfoFromToken(tokenValue);
+
+                try {
+                    setAuthentication(info.getSubject());
+                } catch (Exception e) {
+                    log.error(e.getMessage());
+                    return;
+                }
             }
-
-            Claims info = jwtUtil.getUserInfoFromToken(tokenValue);
-
-            try {
-                setAuthentication(info.getSubject());
-            } catch (Exception e) {
-                log.error(e.getMessage());
-                return;
-            }
+            filterChain.doFilter(request, response); // 다음 필터로 이동
         }
-        filterChain.doFilter(request, response); // 다음 필터로 이동
+
+
+
     }
 
     /**
