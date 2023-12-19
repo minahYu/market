@@ -23,6 +23,6 @@ public class CommentController {
             @PathVariable Long postId,
             @AuthenticationPrincipal UserDetailsImpl userDetails
     ) {
-
+        commentService.createComment(requestDto, postId, userDetails.getUser());
     }
 }
