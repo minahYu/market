@@ -80,6 +80,19 @@ public class PostService {
     }
 
     /**
+     * 게시글 삭제 관련 메서드
+     */
+    @Transactional
+    public boolean deletePost(Long id, User user) {
+        Post post = postRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당하는 게시글이 존재하지 않습니다."));
+
+        validateWriter(post, user);
+        postRepository.delete(post);
+        return true;
+    }
+
+    /**
      * 수정, 삭제를 진행하는 사람이 작성자가 맞는지 확인하는 메서드
      */
     private void validateWriter(Post post, User user) {
