@@ -4,8 +4,10 @@ import com.example.market.domain.model.BaseEntity;
 import com.example.market.domain.post.entity.Post;
 import com.example.market.domain.user.entity.User;
 import jakarta.persistence.*;
+import lombok.Getter;
 
 @Entity
+@Getter
 @Table(name = "comment")
 public class Comment extends BaseEntity {
     @Id
