@@ -65,7 +65,12 @@ public class PostController {
      * 게시글 삭제 관련 메서드
      */
     @DeleteMapping("/{id}")
-    public void deletePost(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public ResponseEntity<?> deletePost(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         boolean result = postService.deletePost(id, userDetails.getUser());
+
+        if(!result) {
+            return ResponseEntity.status(401).body("게시글을 삭제하지 못했습니다.");
+        }
+        return ResponseEntity.status(200).body("게시글이 삭제되었습니다.");
     }
 }
