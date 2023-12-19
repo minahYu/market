@@ -66,6 +66,6 @@ public class PostController {
      */
     @DeleteMapping("/{id}")
     public void deletePost(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-
+        boolean result = postService.deletePost(id, userDetails.getUser());
     }
 }
