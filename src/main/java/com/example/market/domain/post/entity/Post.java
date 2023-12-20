@@ -1,10 +1,14 @@
 package com.example.market.domain.post.entity;
 
+import com.example.market.domain.comment.entity.Comment;
 import com.example.market.domain.model.BaseEntity;
 import com.example.market.domain.post.dto.request.PostRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -23,6 +27,9 @@ public class Post extends BaseEntity {
 
     @Column(name = "writer", nullable = false)
     private String writer;
+
+    @OneToMany(mappedBy = "post")
+    private List<Comment> commentList = new ArrayList<>();
 
     public Post(PostRequestDto requestDto, String writer) {
         this.title = requestDto.getTitle();
