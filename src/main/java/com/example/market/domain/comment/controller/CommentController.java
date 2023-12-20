@@ -29,11 +29,16 @@ public class CommentController {
     }
 
     @PutMapping("/{commentId}")
-    public void updateComment(
+    public ResponseEntity<?> updateComment(
         @RequestBody CommentRequestDto requestDto,
         @PathVariable Long commentId,
         @AuthenticationPrincipal UserDetailsImpl userDetails
     ) {
+        CommentResponseDto responseDto = commentService.updateComment(requestDto, commentId, userDetails.getUser());
 
+        if(responseDto != null) {
+            return ResponseEntity.status(200).body("댓글을 수정하였습니다.");
+        }
+        return ResponseEntity.status(401).body("댓글을 수정할 수 없습니다.");
     }
 }

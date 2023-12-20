@@ -6,9 +6,11 @@ import com.example.market.domain.post.entity.Post;
 import com.example.market.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
+@NoArgsConstructor
 @Table(name = "comment")
 public class Comment extends BaseEntity {
     @Id
@@ -30,5 +32,9 @@ public class Comment extends BaseEntity {
         this.contents = requestDto.getContents();
         this.post = post;
         this.user = user;
+    }
+
+    public void update(CommentRequestDto requestDto) {
+        this.contents = requestDto.getContents();
     }
 }
