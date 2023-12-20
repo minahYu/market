@@ -27,4 +27,13 @@ public class CommentController {
         }
         return ResponseEntity.status(401).body("댓글을 등록할 수 없습니다.");
     }
+
+    @PutMapping("/{commentId}")
+    public void updateComment(
+        @RequestBody CommentRequestDto requestDto,
+        @PathVariable Long commentId,
+        @AuthenticationPrincipal UserDetailsImpl userDetails
+    ) {
+
+    }
 }
