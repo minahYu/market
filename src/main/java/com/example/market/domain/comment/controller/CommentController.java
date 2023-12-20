@@ -41,4 +41,20 @@ public class CommentController {
         }
         return ResponseEntity.status(401).body("댓글을 수정할 수 없습니다.");
     }
+
+    /**
+     * 댓글 삭제 관련 메서드
+     */
+    @DeleteMapping("/{commentId}")
+    public ResponseEntity<?> deleteComment(
+            @PathVariable Long commentId,
+            @AuthenticationPrincipal UserDetailsImpl userDetails
+    ) {
+        Long id = commentService.deleteComment(commentId, userDetails.getUser());
+
+        if(id != null) {
+            return ResponseEntity.status(200).body("댓글을 삭제하였습니다.");
+        }
+        return ResponseEntity.status(401).body("댓글을 삭제할 수 없습니다.");
+    }
 }
