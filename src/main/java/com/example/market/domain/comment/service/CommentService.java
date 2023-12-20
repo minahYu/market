@@ -36,6 +36,16 @@ public class CommentService {
         return new CommentResponseDto(comment);
     }
 
+    @Transactional
+    public Long deleteComment(Long commentId, User user) {
+        Comment comment = commentRepository.findById(commentId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 댓글입니다."));
+        validateWriter(comment, user);
+        commentRepository.delete(comment);
+
+        return commentId;
+    }
+
     private void validateWriter(Comment comment, User user) {
         if(!comment.getUser().getNickname().equals(user.getNickname())) {
             throw new IllegalArgumentException("다른 사람의 댓글은 수정 및 삭제가 불가능합니다.");
