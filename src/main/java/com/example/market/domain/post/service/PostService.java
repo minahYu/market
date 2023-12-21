@@ -5,6 +5,7 @@ import com.example.market.domain.comment.entity.Comment;
 import com.example.market.domain.comment.repository.CommentRepository;
 import com.example.market.domain.post.dto.request.PostRequestDto;
 import com.example.market.domain.post.dto.response.DetailPostResponseDto;
+import com.example.market.domain.post.dto.response.LikeResponseDto;
 import com.example.market.domain.post.dto.response.PreviewPostResponseDto;
 import com.example.market.domain.post.entity.Like;
 import com.example.market.domain.post.entity.Post;
@@ -62,14 +63,21 @@ public class PostService {
      */
     public DetailPostResponseDto getPost(Long id) {
         Optional<Post> post = postRepository.findById(id);
+
         List<Comment> comments = commentRepository.findAllByPostId(id);
         List<CommentResponseDto> commentList = new ArrayList<>();
         comments.forEach(comment -> {
             commentList.add(new CommentResponseDto(comment));
         });
 
+        List<Like> likes = likeRepository.findAllByPostId(id);
+        List<LikeResponseDto> likeList = new ArrayList<>();
+        likes.forEach(like -> {
+            likeList.add(new LikeResponseDto(like.getUser()));
+        });
+
         if(post.isPresent()) {
-            return new DetailPostResponseDto(post.get(), commentList);
+            return new DetailPostResponseDto(post.get(), commentList, likeList);
         } else {
             throw new IllegalArgumentException("해당하는 게시글이 존재하지 않습니다.");
         }
@@ -129,9 +137,6 @@ public class PostService {
         Like like = likeRepository.findByPostIdAndUserId(id, user.getId())
                 .orElseThrow(()
                         -> new IllegalArgumentException("존재하지 않는 게시물이거나 해당 게시물에 좋아요를 누르지 않았습니다."));
-
-        System.out.println("postId : " + id + " " + like.getPost().getId());
-        System.out.println("userId : " + user.getId() + " " + like.getUser().getId());
 
         likeRepository.delete(like);
     }
