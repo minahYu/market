@@ -108,4 +108,12 @@ public class PostService {
         if(!post.getWriter().equals(user.getNickname()))
             throw new IllegalArgumentException("다른 사람의 게시글은 수정 및 삭제가 불가능합니다.");
     }
+
+    /**
+     * 좋아요 관련 메서드 (ex; emptyHeart -> fullHeart)
+     */
+    public void addLikePost(Long id, User user) {
+        Post post = postRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시물입니다."));
+    }
 }

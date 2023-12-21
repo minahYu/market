@@ -79,6 +79,6 @@ public class PostController {
      */
     @PostMapping("/{id}/like")
     public void addLikePost(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-
+        postService.addLikePost(id, userDetails.getUser());
     }
 }

@@ -31,6 +31,9 @@ public class Post extends BaseEntity {
     @OneToMany(mappedBy = "post")
     private List<Comment> commentList = new ArrayList<>();
 
+    @OneToMany(mappedBy = "post")
+    private List<Like> likeList = new ArrayList<>();
+
     public Post(PostRequestDto requestDto, String writer) {
         this.title = requestDto.getTitle();
         this.contents = requestDto.getContents();
