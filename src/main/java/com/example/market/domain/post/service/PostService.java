@@ -6,7 +6,9 @@ import com.example.market.domain.comment.repository.CommentRepository;
 import com.example.market.domain.post.dto.request.PostRequestDto;
 import com.example.market.domain.post.dto.response.DetailPostResponseDto;
 import com.example.market.domain.post.dto.response.PreviewPostResponseDto;
+import com.example.market.domain.post.entity.Like;
 import com.example.market.domain.post.entity.Post;
+import com.example.market.domain.post.repository.LikeRepository;
 import com.example.market.domain.post.repository.PostRepository;
 import com.example.market.domain.user.entity.User;
 import com.example.market.domain.user.repository.UserRepository;
@@ -24,6 +26,7 @@ public class PostService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
     private final CommentRepository commentRepository;
+    private final LikeRepository likeRepository;
 
     /**
      * 입력받은 게시글 데이터를 저장하는 메서드
@@ -107,5 +110,15 @@ public class PostService {
     private void validateWriter(Post post, User user) {
         if(!post.getWriter().equals(user.getNickname()))
             throw new IllegalArgumentException("다른 사람의 게시글은 수정 및 삭제가 불가능합니다.");
+    }
+
+    /**
+     * 좋아요 관련 메서드 (ex; emptyHeart -> fullHeart)
+     */
+    public void addLikePost(Long id, User user) {
+        Post post = postRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시물입니다."));
+
+        likeRepository.save(new Like(user, post));
     }
 }
