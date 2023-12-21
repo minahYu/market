@@ -41,7 +41,8 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
         log.info("@@URL : " + url);
 
-        if((url.startsWith("/api/users") || url.startsWith("/css") || url.startsWith("/js"))) {
+        if((url.startsWith("/api/users") || (request.getMethod().equals("GET") && url.startsWith("/api/posts"))
+                || url.startsWith("/css") || url.startsWith("/js"))) {
             filterChain.doFilter(request, response);
         } else {
             if (StringUtils.hasText(tokenValue)) {
