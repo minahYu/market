@@ -62,11 +62,14 @@ public class PostService {
      */
     public DetailPostResponseDto getPost(Long id) {
         Optional<Post> post = postRepository.findById(id);
+
         List<Comment> comments = commentRepository.findAllByPostId(id);
         List<CommentResponseDto> commentList = new ArrayList<>();
         comments.forEach(comment -> {
             commentList.add(new CommentResponseDto(comment));
         });
+
+
 
         if(post.isPresent()) {
             return new DetailPostResponseDto(post.get(), commentList);
@@ -129,9 +132,6 @@ public class PostService {
         Like like = likeRepository.findByPostIdAndUserId(id, user.getId())
                 .orElseThrow(()
                         -> new IllegalArgumentException("존재하지 않는 게시물이거나 해당 게시물에 좋아요를 누르지 않았습니다."));
-
-        System.out.println("postId : " + id + " " + like.getPost().getId());
-        System.out.println("userId : " + user.getId() + " " + like.getUser().getId());
 
         likeRepository.delete(like);
     }
