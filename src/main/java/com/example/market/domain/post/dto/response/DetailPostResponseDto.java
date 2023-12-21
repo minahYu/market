@@ -1,9 +1,12 @@
 package com.example.market.domain.post.dto.response;
 
+import com.example.market.domain.comment.dto.response.CommentResponseDto;
+import com.example.market.domain.comment.entity.Comment;
 import com.example.market.domain.post.entity.Post;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 public class DetailPostResponseDto {
@@ -12,10 +15,13 @@ public class DetailPostResponseDto {
     private String writer;
     private LocalDateTime createdAt;
 
-    public DetailPostResponseDto(Post post) {
+    private List<CommentResponseDto> commentList;
+
+    public DetailPostResponseDto(Post post, List<CommentResponseDto> commentList) {
         this.title = post.getTitle();
         this.contents = post.getContents();
         this.writer = post.getWriter();
         this.createdAt = post.getCreatedAt();
+        this.commentList = commentList;
     }
 }

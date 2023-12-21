@@ -1,5 +1,8 @@
 package com.example.market.domain.post.service;
 
+import com.example.market.domain.comment.dto.response.CommentResponseDto;
+import com.example.market.domain.comment.entity.Comment;
+import com.example.market.domain.comment.repository.CommentRepository;
 import com.example.market.domain.post.dto.request.PostRequestDto;
 import com.example.market.domain.post.dto.response.DetailPostResponseDto;
 import com.example.market.domain.post.dto.response.PreviewPostResponseDto;
@@ -20,6 +23,7 @@ import java.util.Optional;
 public class PostService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
+    private final CommentRepository commentRepository;
 
     /**
      * 입력받은 게시글 데이터를 저장하는 메서드
@@ -55,9 +59,14 @@ public class PostService {
      */
     public DetailPostResponseDto getPost(Long id) {
         Optional<Post> post = postRepository.findById(id);
+        List<Comment> comments = commentRepository.findAllByPostId(id);
+        List<CommentResponseDto> commentList = new ArrayList<>();
+        comments.forEach(comment -> {
+            commentList.add(new CommentResponseDto(comment));
+        });
 
         if(post.isPresent()) {
-            return new DetailPostResponseDto(post.get());
+            return new DetailPostResponseDto(post.get(), commentList);
         } else {
             throw new IllegalArgumentException("해당하는 게시글이 존재하지 않습니다.");
         }
