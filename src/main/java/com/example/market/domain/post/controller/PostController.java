@@ -81,4 +81,12 @@ public class PostController {
     public void addLikePost(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         postService.addLikePost(id, userDetails.getUser());
     }
+
+    /**
+     * 좋아요 취소 메서드 (ex; fullHeart -> emptyHeart)
+     */
+    @PostMapping("/{id}/unlike")
+    public void deleteLikePost(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        postService.deleteLikePost(id, userDetails.getUser());
+    }
 }
