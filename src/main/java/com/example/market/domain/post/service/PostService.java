@@ -5,6 +5,7 @@ import com.example.market.domain.comment.entity.Comment;
 import com.example.market.domain.comment.repository.CommentRepository;
 import com.example.market.domain.post.dto.request.PostRequestDto;
 import com.example.market.domain.post.dto.response.DetailPostResponseDto;
+import com.example.market.domain.post.dto.response.LikeResponseDto;
 import com.example.market.domain.post.dto.response.PreviewPostResponseDto;
 import com.example.market.domain.post.entity.Like;
 import com.example.market.domain.post.entity.Post;
@@ -69,10 +70,14 @@ public class PostService {
             commentList.add(new CommentResponseDto(comment));
         });
 
-
+        List<Like> likes = likeRepository.findAllByPostId(id);
+        List<LikeResponseDto> likeList = new ArrayList<>();
+        likes.forEach(like -> {
+            likeList.add(new LikeResponseDto(like.getUser()));
+        });
 
         if(post.isPresent()) {
-            return new DetailPostResponseDto(post.get(), commentList);
+            return new DetailPostResponseDto(post.get(), commentList, likeList);
         } else {
             throw new IllegalArgumentException("해당하는 게시글이 존재하지 않습니다.");
         }
