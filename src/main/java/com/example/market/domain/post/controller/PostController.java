@@ -73,4 +73,12 @@ public class PostController {
         }
         return ResponseEntity.status(200).body("게시글이 삭제되었습니다.");
     }
+
+    /**
+     * 좋아요 관련 메서드 (ex; emptyHeart -> fullHeart)
+     */
+    @PostMapping("/{id}/like")
+    public void addLikePost(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+
+    }
 }
