@@ -87,6 +87,6 @@ public class PostController {
      */
     @PostMapping("/{id}/unlike")
     public void deleteLikePost(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-
+        postService.deleteLikePost(id, userDetails.getUser());
     }
 }
