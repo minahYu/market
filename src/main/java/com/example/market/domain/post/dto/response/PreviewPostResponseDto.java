@@ -15,7 +15,7 @@ public class PreviewPostResponseDto {
 
     public PreviewPostResponseDto(Post post) {
         this.title = post.getTitle();
-        this.writer = post.getWriter();
+        this.writer = post.getUser().getNickname();
         this.createdAt = post.getCreatedAt();
     }
 }

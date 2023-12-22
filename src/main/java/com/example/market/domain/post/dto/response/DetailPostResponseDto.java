@@ -26,7 +26,7 @@ public class DetailPostResponseDto {
     ) {
         this.title = post.getTitle();
         this.contents = post.getContents();
-        this.writer = post.getWriter();
+        this.writer = post.getUser().getNickname();
         this.createdAt = post.getCreatedAt();
         this.commentList = commentList;
         this.likeList = likeList;
