@@ -90,7 +90,7 @@ public class WebSecurityConfig {
                 // STATELESS -> 스프링 시큐리티가 세션을 생성하지 않고 기존의 세션을 사용하지 않게끔 설정.
                 sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         );
-        
+
         log.info("인가 요청 ********* ");
 
         // 인가 요청

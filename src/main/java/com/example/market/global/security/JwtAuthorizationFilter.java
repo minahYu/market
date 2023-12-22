@@ -41,7 +41,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
         log.info("@@URL : " + url);
 
-        if((url.startsWith("/api/users") || (request.getMethod().equals("GET") && url.startsWith("/api/posts"))
+        if ((url.startsWith("/api/users") || (request.getMethod().equals("GET") && url.startsWith("/api/posts"))
                 || url.startsWith("/css") || url.startsWith("/js"))) {
             filterChain.doFilter(request, response);
         } else {
@@ -66,7 +66,6 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             }
             filterChain.doFilter(request, response); // 다음 필터로 이동
         }
-
 
 
     }

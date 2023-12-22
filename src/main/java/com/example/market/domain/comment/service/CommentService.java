@@ -47,7 +47,7 @@ public class CommentService {
     }
 
     private void validateWriter(Comment comment, User user) {
-        if(!comment.getUser().getNickname().equals(user.getNickname())) {
+        if (!comment.getUser().getNickname().equals(user.getNickname())) {
             throw new IllegalArgumentException("다른 사람의 댓글은 수정 및 삭제가 불가능합니다.");
         }
     }

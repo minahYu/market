@@ -71,7 +71,7 @@ public class UserDetailsImpl implements UserDetails {
     }
 
     /**
-     * 사용자 계정이 활서오하 상태인지 여부를 반환하는 메서드
+     * 사용자 계정이 활성화 상태인지 여부를 반환하는 메서드
      */
     @Override
     public boolean isEnabled() {

@@ -40,7 +40,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         try {
             // ObjectMapper() : JsonFactory를 생성하는 기본 생성자.
             // readValue() : 입력받은 JSON형식의 request를 Java 객체로 역직렬화해주는 메서드
-            // getInputStream() : 바이너리 데이터(파일이나 JSON 데이터)를 바이트 단위의 데이터를 읽어들여 InputStream을 반환하는 메서드
+            // getInputStream() : 바이너리 데이터(파일이나 JSON 데이터)를
+            //                    바이트 단위의 데이터를 읽어들여 InputStream을 반환하는 메서드
             LoginRequestDto requestDto = new ObjectMapper().readValue(request.getInputStream(), LoginRequestDto.class);
 
             return getAuthenticationManager().authenticate(

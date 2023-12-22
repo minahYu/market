@@ -1,7 +1,6 @@
 package com.example.market.domain.post.repository;
 
 import com.example.market.domain.post.entity.Like;
-import com.example.market.domain.user.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

@@ -10,7 +10,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
@@ -32,7 +35,10 @@ public class UserController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<?> signup(@Valid @RequestBody SignupRequestDto requestDto, BindingResult bindingResult) {
+    public ResponseEntity<?> signup(
+            @Valid @RequestBody SignupRequestDto requestDto,
+            BindingResult bindingResult
+    ) {
         List<FieldError> fieldErrors = bindingResult.getFieldErrors();
         String responseErrorMainMsg = null; // 대표로 하나의 에러 메시지만 담는 변수
         if (fieldErrors.size() > 0) {

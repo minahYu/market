@@ -1,8 +1,6 @@
 package com.example.market.domain.post.dto.response;
 
 import com.example.market.domain.comment.dto.response.CommentResponseDto;
-import com.example.market.domain.comment.entity.Comment;
-import com.example.market.domain.post.entity.Like;
 import com.example.market.domain.post.entity.Post;
 import lombok.Getter;
 
