@@ -2,9 +2,7 @@ package com.example.market.domain.post.dto.response;
 
 import com.example.market.domain.post.entity.Post;
 import lombok.Getter;
-import org.springframework.cglib.core.Local;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
