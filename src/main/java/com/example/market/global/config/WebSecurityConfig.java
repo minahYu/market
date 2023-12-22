@@ -91,8 +91,6 @@ public class WebSecurityConfig {
                 sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         );
 
-        log.info("인가 요청 ********* ");
-
         // 인가 요청
         http.authorizeHttpRequests((authorizationRequest) ->
                 authorizationRequest

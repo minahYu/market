@@ -26,7 +26,8 @@ public class UserService {
             //throw new IllegalArgumentException("중복된 닉네임입니다.");
             return false;
         } else {
-            if (checkSamePassword(password, passwordCheck) && checkPasswordNotContainsNickname(password, nickname)) {
+            if (checkSamePassword(password, passwordCheck)
+                    && checkPasswordNotContainsNickname(password, nickname)) {
                 password = passwordEncoder.encode(password);
                 User newUser = new User(nickname, password, UserRoleEnum.USER);
                 userRepository.save(newUser);
