@@ -50,7 +50,6 @@ public class UserController {
         }
 
         boolean result = userService.signup(requestDto);
-
         if (result) {
             return ResponseEntity.ok().body("회원가입이 완료되었습니다");
         } else {

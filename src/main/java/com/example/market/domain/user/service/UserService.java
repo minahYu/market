@@ -28,8 +28,7 @@ public class UserService {
             if (checkSamePassword(password, passwordCheck)
                     && checkPasswordNotContainsNickname(password, nickname)) {
                 password = passwordEncoder.encode(password);
-                User newUser = new User(nickname, password, UserRoleEnum.USER);
-                userRepository.save(newUser);
+                userRepository.save(new User(nickname, password, UserRoleEnum.USER));
             }
             return true;
         }
