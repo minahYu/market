@@ -1,6 +1,6 @@
 package com.example.market.domain.comment.controller;
 
-import com.example.market.domain.comment.dto.CommentRequestDto;
+import com.example.market.domain.comment.dto.request.CommentRequestDto;
 import com.example.market.domain.comment.dto.response.CommentResponseDto;
 import com.example.market.domain.comment.service.CommentService;
 import com.example.market.global.security.UserDetailsImpl;

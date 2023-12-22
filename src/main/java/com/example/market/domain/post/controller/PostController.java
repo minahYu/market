@@ -52,7 +52,7 @@ public class PostController {
     /**
      * 게시글 수정관련 메서드
      */
-    @PostMapping("/{id}")
+    @PutMapping("/{id}")
     public void updatePost(
             @RequestBody PostRequestDto requestDto,
             @PathVariable Long id,

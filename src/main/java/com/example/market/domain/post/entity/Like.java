@@ -1,5 +1,6 @@
 package com.example.market.domain.post.entity;
 
+import com.example.market.domain.model.BaseEntity;
 import com.example.market.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -10,7 +11,7 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @NoArgsConstructor
 @Table(name = "likes")
-public class Like {
+public class Like extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

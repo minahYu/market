@@ -36,7 +36,7 @@ public class PostService {
         Optional<User> userCheck = userRepository.findByNickname(user.getNickname());
 
         if(userCheck.isPresent()) {
-            Post post = new Post(requestDto, user.getNickname());
+            Post post = new Post(requestDto, user);
             postRepository.save(post);
 
             return new PreviewPostResponseDto(post);
@@ -116,7 +116,7 @@ public class PostService {
      * 수정, 삭제를 진행하는 사람이 작성자가 맞는지 확인하는 메서드
      */
     private void validateWriter(Post post, User user) {
-        if(!post.getWriter().equals(user.getNickname()))
+        if(!post.getUser().getNickname().equals(user.getNickname()))
             throw new IllegalArgumentException("다른 사람의 게시글은 수정 및 삭제가 불가능합니다.");
     }
 
