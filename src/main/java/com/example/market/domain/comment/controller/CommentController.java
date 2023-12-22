@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.*;
 public class CommentController {
     private final CommentService commentService;
 
+    /**
+     * 댓글 등록 관련 메서드
+     */
     @PostMapping("/{postId}")
     public ResponseEntity<?> createComment(
             @RequestBody CommentRequestDto requestDto,
@@ -28,6 +31,9 @@ public class CommentController {
         return ResponseEntity.status(401).body("댓글을 등록할 수 없습니다.");
     }
 
+    /**
+     * 댓글 수정 관련 메서드
+     */
     @PutMapping("/{commentId}")
     public ResponseEntity<?> updateComment(
             @RequestBody CommentRequestDto requestDto,

@@ -87,15 +87,10 @@ public class PostService {
      */
     @Transactional
     public void updatePost(PostRequestDto requestDto, Long id, User user) {
-        Optional<Post> postCheck = postRepository.findById(id);
-        Post post = postCheck.get();
-
-        if (postCheck.isPresent()) {
-            validateWriter(post, user);
-            post.update(requestDto.getTitle(), requestDto.getContents());
-        } else {
-            throw new IllegalArgumentException("해당하는 게시글이 존재하지 않습니다.");
-        }
+        Post post = postRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당하는 게시글이 존재하지 않습니다."));
+        validateWriter(post, user);
+        post.update(requestDto.getTitle(), requestDto.getContents());
     }
 
     /**
@@ -105,7 +100,6 @@ public class PostService {
     public boolean deletePost(Long id, User user) {
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당하는 게시글이 존재하지 않습니다."));
-
         validateWriter(post, user);
         postRepository.delete(post);
         return true;
@@ -125,7 +119,6 @@ public class PostService {
     public void addLikePost(Long id, User user) {
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시물입니다."));
-
         likeRepository.save(new Like(user, post));
     }
 
@@ -136,7 +129,6 @@ public class PostService {
         Like like = likeRepository.findByPostIdAndUserId(id, user.getId())
                 .orElseThrow(()
                         -> new IllegalArgumentException("존재하지 않는 게시물이거나 해당 게시물에 좋아요를 누르지 않았습니다."));
-
         likeRepository.delete(like);
     }
 }
