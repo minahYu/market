@@ -1,6 +1,6 @@
 package com.example.market.domain.comment.entity;
 
-import com.example.market.domain.comment.dto.CommentRequestDto;
+import com.example.market.domain.comment.dto.request.CommentRequestDto;
 import com.example.market.domain.model.BaseEntity;
 import com.example.market.domain.post.entity.Post;
 import com.example.market.domain.user.entity.User;

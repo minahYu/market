@@ -1,4 +1,4 @@
-package com.example.market.domain.comment.dto;
+package com.example.market.domain.comment.dto.request;
 
 import jakarta.validation.constraints.Size;
 import lombok.Getter;

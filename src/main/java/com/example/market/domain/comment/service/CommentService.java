@@ -1,6 +1,6 @@
 package com.example.market.domain.comment.service;
 
-import com.example.market.domain.comment.dto.CommentRequestDto;
+import com.example.market.domain.comment.dto.request.CommentRequestDto;
 import com.example.market.domain.comment.dto.response.CommentResponseDto;
 import com.example.market.domain.comment.entity.Comment;
 import com.example.market.domain.comment.repository.CommentRepository;
